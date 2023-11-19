@@ -36,3 +36,80 @@
     transform: rotate(360deg);
   }
 }
+
+.main{
+  margin-left: 250px;
+}
+
+.form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.main{
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+}
+
+.form{
+  display: flex;
+  align-items: center;
+  
+  gap: 1rem;
+}
+
+.heading{
+  display: flex;
+  text-align: left;
+  width: 100%
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid #999;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+.actionBtn{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  justify-content: center;
+}
+
+.reportBtn{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  
+}
+
+.reportHeading{
+  text-align: left;
+  margin-top: 20px;
+}
+
+.salesFilterBtn{
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px;
+}
