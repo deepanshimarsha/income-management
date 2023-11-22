@@ -1,20 +1,64 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchIncome = createAsyncThunk("income/fetchIncome", async () => {
+export const fetchExpense = createAsyncThunk(
+  "expense/fetchExpense",
+  async () => {
+    const response = await axios.get(
+      "https://income-management-api.deepanshisharm2.repl.co/api/v1/expense"
+    );
+
+    return response.data;
+  }
+);
+
+export const postExpense = createAsyncThunk(
+  "expense/postExpense",
+  async (newExpense) => {
+    const response = await axios.post(
+      "https://income-management-api.deepanshisharm2.repl.co/api/v1/expense",
+      newExpense
+    );
+    return response.data;
+  }
+);
+
+export const sortExpense = createAsyncThunk("expense/sortIncome", async () => {
   const response = await axios.get(
-    "https://income-management-api.deepanshisharm2.repl.co/api/v1/income"
+    "https://income-management-api.deepanshisharm2.repl.co/api/v1/expense/sort"
   );
   return response.data;
 });
 
-export const postIncome = createAsyncThunk(
-  "income/fetchIncome",
-  async (newIncome) => {
+export const filterExpense = createAsyncThunk(
+  "expense/filterExpense",
+  async (category) => {
     const response = await axios.get(
-      "https://income-management-api.deepanshisharm2.repl.co/api/v1/income",
-      newIncome
+      `https://income-management-api.deepanshisharm2.repl.co/api/v1/expense/${category}`
     );
+    return response.data;
+  }
+);
+
+export const updateExpense = createAsyncThunk(
+  "expense/updateExpense",
+  async ({ expenseId, updatedFields }) => {
+    const response = await axios.put(
+      `https://income-management-api.deepanshisharm2.repl.co/api/v1/expense/${expenseId}`,
+      updatedFields
+    );
+
+    return response.data;
+  }
+);
+
+export const deleteExpense = createAsyncThunk(
+  "expense/deleteExpense",
+  async (expenseId) => {
+    const response = await axios.delete(
+      `https://income-management-api.deepanshisharm2.repl.co/api/v1/expense/${expenseId}`
+    );
+
     return response.data;
   }
 );
@@ -22,23 +66,92 @@ export const postIncome = createAsyncThunk(
 const expenseSlice = createSlice({
   name: "expense",
   initialState: {
-    entries: [],
+    expense: [],
     loading: false,
     error: "",
   },
   reducers: {},
   extraReducers: {
-    [fetchIncome.pending]: (state) => {
-      state.laoding = true;
+    [fetchExpense.pending]: (state) => {
+      state.loading = true;
     },
-    [fetchIncome.fulfilled]: (state, action) => {
-      state.posts = action.payload.posts;
-      state.laoding = false;
+    [fetchExpense.fulfilled]: (state, action) => {
+      state.expense = action.payload.expense;
+      state.loading = false;
       state.error = "";
     },
-    [fetchIncome.rejected]: (state, action) => {
+    [fetchExpense.rejected]: (state, action) => {
       state.error = action.error.message;
-      state.laoding = false;
+      state.loading = false;
+    },
+    [sortExpense.pending]: (state) => {
+      state.loading = true;
+    },
+    [sortExpense.fulfilled]: (state, action) => {
+      state.expense = action.payload.expense;
+      state.loading = false;
+      state.error = "";
+    },
+    [sortExpense.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    },
+
+    [filterExpense.pending]: (state) => {
+      state.loading = true;
+    },
+    [filterExpense.fulfilled]: (state, action) => {
+      state.expense = action.payload.expense;
+      state.loading = false;
+      state.error = "";
+    },
+    [filterExpense.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    },
+    [postExpense.pending]: (state) => {
+      state.loading = true;
+    },
+    [postExpense.fulfilled]: (state, action) => {
+      state.expense.push(action.payload.expense);
+      state.loading = false;
+      state.error = "";
+    },
+    [postExpense.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    },
+    [deleteExpense.pending]: (state) => {
+      state.loading = true;
+    },
+    [deleteExpense.fulfilled]: (state, action) => {
+      state.expense = state.expense.filter(
+        (item) => item._id !== action.payload.expense._id
+      );
+      state.loading = false;
+      state.error = "";
+    },
+    [deleteExpense.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    },
+    [updateExpense.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateExpense.fulfilled]: (state, action) => {
+      state.expense = state.expense.map((item) => {
+        if (item._id === action.payload.expense._id) {
+          return action.payload.expense;
+        } else {
+          return item;
+        }
+      });
+      state.loading = false;
+      state.error = "";
+    },
+    [updateExpense.rejected]: (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
     },
   },
 });

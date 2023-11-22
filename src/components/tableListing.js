@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import { deleteIncome } from "../features/income/incomeSlice";
 import EditModalForm from "./EditModalForm";
+import { deleteExpense } from "../features/expense/expenseSlice";
+import { deleteSavings } from "../features/savings/savingsSlice";
 export default function TableListing({
   income,
   expense,
@@ -12,13 +14,12 @@ export default function TableListing({
 }) {
   const dispatch = useDispatch();
 
-  const handleDelete = (itemId) => {};
   return (
     <table>
       <tr>
         <th>Description</th>
         <th>Amount</th>
-        <th>Category</th>
+        {!savings && <th>Category</th>}
         <th>Actions</th>
       </tr>
       {!error && loading && <p>laoding...</p>}
@@ -58,12 +59,18 @@ export default function TableListing({
         expense.map((item) => {
           return (
             <tr>
-              <td>{item.name}</td>
-              <td> {item.quantity}</td>
-              <td>Rs.{item.price}</td>
+              <td>{item.description}</td>
+              <td>Rs. {item.amount}</td>
+              <td>{item.category}</td>
               <td className="actionBtn">
-                {/* <EditModalForm inventoryItem={item} /> */}
-                <Button variant="danger" onClick={() => handleDelete(item._id)}>
+                <EditModalForm expenseItem={item} />
+                <Button
+                  variant="danger"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteExpense(item._id));
+                  }}
+                >
                   delete
                 </Button>
               </td>
@@ -77,12 +84,17 @@ export default function TableListing({
         savings.map((item) => {
           return (
             <tr>
-              <td>{item.name}</td>
-              <td> {item.quantity}</td>
-              <td>Rs.{item.price}</td>
+              <td>{item.description}</td>
+              <td> {item.amount}</td>
               <td className="actionBtn">
-                {/* <EditModalForm salesItem={item} /> */}
-                <Button variant="danger" onClick={() => handleDelete(item._id)}>
+                <EditModalForm savingsItem={item} />
+                <Button
+                  variant="danger"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(deleteSavings(item._id));
+                  }}
+                >
                   delete
                 </Button>
               </td>

@@ -87,7 +87,6 @@ tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-
 .actionBtn{
   display: flex;
   align-items: center;
@@ -112,4 +111,16 @@ tr:nth-child(even) {
   display: flex;
   justify-content: flex-start;
   margin: 10px;
+}
+
+.btn-container{
+  display: flex;
+  margin-top: 20px;
+}
+.report-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }

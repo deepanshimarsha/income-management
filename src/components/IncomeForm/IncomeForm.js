@@ -42,8 +42,8 @@ export default function IncomeForm() {
         >
           <option defaultValue={true}>select category</option>
           <option value="Active">Active</option>
-          <option value="Active">Passive</option>
-          <option value="Active">Investment</option>
+          <option value="Passive">Passive</option>
+          <option value="Investment">Investment</option>
         </select>
       </div>
 
